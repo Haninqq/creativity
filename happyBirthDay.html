@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+      font-family: 'Arial', sans-serif;
+      cursor: pointer;
+    }
+
+    #start-screen {
+      width: 100%;
+      height: 100%;
+      background: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      user-select: none;
+      transition: opacity 1s ease;
+      z-index: 10;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #start-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, #ffe6e6, #fff1f1);
+      overflow: hidden;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+
+    #container.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #left {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3em;
+      color: #ff69b4;
+      text-shadow: 2px 2px 10px #fff;
+      animation: shine 2s infinite alternate;
+      white-space: nowrap;
+    }
+
+    @keyframes shine {
+      0% { text-shadow: 2px 2px 10px #fff; }
+      100% { text-shadow: 0 0 30px #ff69b4, 0 0 50px #ff69b4; }
+    }
+
+    .balloon {
+      position: absolute;
+      width: 60px;
+      height: 80px;
+      background-color: #ff69b4;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 40px;
+      background: #555;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 0;
+      }
+      30% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-200px) scale(1.1);
+        opacity: 0;
+      }
+    }
+
+    .balloon:nth-child(2) { left: 10%; background-color: #fcd34d; animation-delay: 0s; }
+    .balloon:nth-child(3) { left: 30%; background-color: #60a5fa; animation-delay: 1s; }
+    .balloon:nth-child(4) { left: 50%; background-color: #a78bfa; animation-delay: 2s; }
+    .balloon:nth-child(5) { left: 70%; background-color: #34d399; animation-delay: 3s; }
+    .balloon:nth-child(6) { left: 90%; background-color: #f87171; animation-delay: 4s; }
+
+    #right {
+      width: 35%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    #photo {
+      width: 90%;
+      max-height: 80%;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.2);
+      border: 5px solid #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 시작 화면 -->
+  <div id="start-screen">화면을 터치하세요 🎈</div>
+
+  <!-- 축하 화면 -->
+  <div id="container">
+    <div id="left">
+      <h1>🎉 생일 축하해요 준성쌤! 🎉</h1>
+      <div class="balloon"></div>
+      <div class="balloon"></div>
+      <div class="balloon"></div>
+      <div class="balloon"></div>
+      <div class="balloon"></div>
+    </div>
+    <div id="right">
+      <img id="photo" src="teacher_photo.png" alt="생일 주인공" />
+    </div>
+  </div>
+
+  <!-- 배경 음악 -->
+  <audio id="bg-music" preload="auto">
+    <source src="happy_birthday.mp3" type="audio/mpeg">
+    브라우저가 오디오를 지원하지 않습니다.
+  </audio>
+
+  <script>
+    const startScreen = document.getElementById('start-screen');
+    const container = document.getElementById('container');
+    const music = document.getElementById('bg-music');
+
+    function launchParty() {
+      startScreen.classList.add('fade-out');
+      setTimeout(() => {
+        container.classList.add('show');
+        music.play();
+      }, 1000);
+    }
+
+    document.body.addEventListener('click', launchParty, { once: true });
+    document.body.addEventListener('touchstart', launchParty, { once: true });
+  </script>
+
+</body>
+</html>
